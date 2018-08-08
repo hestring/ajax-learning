@@ -5,28 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-<!--同步模式用的少，可以使用时间回调的方式获取数据-->
-<form action="get.php" method="get">
-    <input type="text" name="username">
-    <input type="text" name="age">
-    <input type="submit">
-</form>
-
 <button>AJAX</button>
 <script>
     var oBtn=document.getElementsByTagName('button')[0];
     oBtn.onclick=function () {
         var xhr=null;
-        if(window.XMLHttpRequest){
+        if (window.XMLHttpRequest){ //拿一个不存在的对象做判断条件一样会出错
             xhr=new XMLHttpRequest();
-        }else {
-            xhr=new ActiveXObject('Microsoft.XMLHTTP');
+        } else{
+            xhr=new ActiveXObject('Microsoft.XMLHTTP')
         }
-        xhr.open('get','1.php',true);
+        /*
+   * 1.解决缓存问题 在url?后边连接一个随机数 时间戳
+   * 2.乱码,编码encodeURI
+   * */
+        xhr.open('get','get.php?username='+encodeURI('科技xx')+'&age=20&'+new Date().getTime(),true);
         xhr.send();
-
         xhr.onreadystatechange=function () {
-            if (xhr.readyState===4){
+            if (xhr.readyState===4&&xhr.status===200){
                 alert(xhr.responseText);
             }
         }

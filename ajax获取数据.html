@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>AJAX</button>
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    oBtn.onclick=function () {
+        var xhr=null;
+        if (window.XMLHttpRequest){ //拿一个不存在的对象做判断条件一样会出错
+            xhr=new XMLHttpRequest();
+        } else{
+            xhr=new ActiveXObject('Microsoft.XMLHTTP')
+        }
+        xhr.open('post','getList.php',true);
+        xhr.send();
+        xhr.onreadystatechange=function () {
+            if (xhr.readyState===4&&xhr.status===200){
+                alert(xhr.responseText); //字符串  IE7json2.js
+            }
+        }
+    }
+</script>
+</body>
+</html>

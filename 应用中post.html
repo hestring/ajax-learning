@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>AJAX</button>
+<input type="text" formenctype="application/x-www-form-urlencoded">
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    oBtn.onclick=function () {
+        var xhr=null;
+        if (window.XMLHttpRequest){ //拿一个不存在的对象做判断条件一样会出错
+            xhr=new XMLHttpRequest();
+        } else{
+            xhr=new ActiveXObject('Microsoft.XMLHTTP')
+        }
+        //post方式,数据放在send()里作为参数发送
+        //告诉后端发送数据的类型 post没有缓存问题 无需编码
+        xhr.open('post','post.php',true);
+        xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+        xhr.send('username=科技&age=20');
+        xhr.onreadystatechange=function () {
+            if (xhr.readyState===4&&xhr.status===200){
+                alert(xhr.responseText);
+            }
+        }
+    }
+</script>
+</body>
+</html>
