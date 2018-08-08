@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<input type="text" formenctype="application/x-www-form-urlencoded">-->
+<button>获取新闻</button>
+<ol id="list"></ol>
+<script src="ajax.js"></script>
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    var oList=document.getElementById('list');
+    oBtn.onclick=function () {
+        ajax('post','getNews.php','',function (data) {
+            var data=JSON.parse(data);
+            var str='';
+            for (var i=0;i<data.length;i++){
+                str+='<li>'+data[i].title+' <em style="color: #f00;">'+data[i].hot+'</em></li>';
+            }
+            oList.innerHTML=str;
+        });
+        setInterval(function () {
+            ajax('post','getNews.php','',function (data) {
+                var data=JSON.parse(data);
+                var str='';
+                for (var i=0;i<data.length;i++){
+                    str+='<li>'+data[i].title+' <em style="color: #f00;">'+data[i].hot+'</em></li>';
+                }
+                oList.innerHTML=str;
+            });
+        },1000);
+    }
+</script>
+</body>
+</html>
