@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>AJAX</button>
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    oBtn.onclick=function () {
+        // var xhr=new XMLHttpRequest();
+        // IE6以下
+        // new ActiveXObject('Microsoft.XMLHTTP');
+        var xhr=null;
+        //兼容1
+        if (window.XMLHttpRequest){ //拿一个不存在的对象做判断条件一样会出错
+            xhr=new XMLHttpRequest();
+        } else{
+            xhr=new ActiveXObject('Microsoft.XMLHTTP')
+        }
+        //兼容2（错误处理）
+        try{//代码尝试执行这个快的内容，如果有错误，则会执行catch,并且传入错误信息参数
+        //throw手动抛出错误 throw new Error();
+            xhr=new XMLHttpRequest();
+        }catch (e) {
+            xhr=new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.open('get','1.txt',true);
+        xhr.send();
+        xhr.onreadystatechange=function () {
+            if (xhr.readyState===4){
+                alert(xhr.responseText);
+            }
+        }
+    }
+</script>
+</body>
+</html>
