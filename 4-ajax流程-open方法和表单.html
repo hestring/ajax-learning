@@ -5,6 +5,32 @@
     <title>Title</title>
 </head>
 <body>
+<!--同步模式用的少，可以使用时间回调的方式获取数据-->
+<form action="1.php" method="get">
+    <input type="text" name="username">
+    <input type="text" name="age">
+    <input type="submit">
+</form>
 
+<button>AJAX</button>
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    oBtn.onclick=function () {
+        var xhr=null;
+        if(window.XMLHttpRequest){
+            xhr=new XMLHttpRequest();
+        }else {
+            xhr=new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.open('get','1.php',true);
+        xhr.send();
+
+        xhr.onreadystatechange=function () {
+            if (xhr.readyState===4){
+                alert(xhr.responseText);
+            }
+        }
+    }
+</script>
 </body>
 </html>

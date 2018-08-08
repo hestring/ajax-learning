@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>AJAX</button>
+<script>
+    var oBtn=document.getElementsByTagName('button')[0];
+    oBtn.onclick=function () {
+        var xhr=null;
+        try{
+            xhr=new XMLHttpRequest();
+        }catch (e) {
+            xhr=new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        console.log(xhr.readyState);
+        xhr.open('get','1.txt',true);
+        xhr.send();
+        setInterval(function () {
+            console.log(xhr.readyState);
+        },1);
+        xhr.onreadystatechange=function () {
+            // alert(this.readyState);
+            if(xhr.readyState===4&&xhr.status===200){
+                alert(xhr.responseText);
+            }
+        }
+        /*readyState	unsigned short
+请求的五种状态
+
+值	状态	描述
+0	UNSENT (未打开)	open()方法还未被调用.
+1	OPENED  (未发送)
+open()方法已经被调用.
+
+2	HEADERS_RECEIVED (已获取响应头)	send()方法已经被调用, 响应头和响应状态已经返回.
+3	LOADING (正在下载响应体)	响应体下载中; responseText中已经获取了部分数据.
+4	DONE (请求完成)	整个请求过程已经完毕.*/
+
+        // enctype!!!!!
+    }
+</script>
+</body>
+</html>
