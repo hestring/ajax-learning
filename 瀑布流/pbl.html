@@ -3,13 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body,p{
+            margin: 0;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        img{
+            vertical-align: top;
+            border: none;
+        }
+        #list{
+            width: 1128px;
+            margin: 20px auto 0;
+        }
+        #list li{
+            float: left;
+        }
+        #list div{
+            width: 250px;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 0 5px 5px;
+        }
+    </style>
 </head>
 <body>
+<ul id="list">
+    <!--<li>
+        <div>
+            <img src="1.jpeg" alt="">
+            <p>简单 萌物 平铺 </p>
+        </div>
+        <div>
+            <img src="1.jpeg" alt="">
+            <p>简单 萌物 平铺 </p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <img src="1.jpeg" alt="">
+            <p>简单 萌物 平铺 </p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <img src="1.jpeg" alt="">
+            <p>简单 萌物 平铺 </p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <img src="1.jpeg" alt="">
+            <p>简单 萌物 平铺 </p>
+        </div>
+    </li>-->
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
 <script src="ajax.js"></script>
 <script>
-    ajax('get','getPics.php','',function (data) {
-        alert(data);
-    });
+    var oUl=document.getElementById('list');
+    var aLi=oUl.getElementsByTagName('li');
+    var iLen=aLi.length;
+    var iPage=1;
+    var b=true;
+    getList();
+    function getList(){
+        ajax('post','getPics.php','cpage=1',function (data) {
+            var data=JSON.parse(data);
+
+            for (var i=0;i<data.length;i++){
+                //获取高度最短的li
+                var _index=getShort();
+
+                var div=document.createElement('div');
+                var img=document.createElement('img');
+                var p=document.createElement('p');
+                img.src=data[i].image;
+                img.style.width='250px';
+                img.style.height=data[i].height*(250/data[i].width)+'px';
+                div.appendChild(img);
+                p.innerHTML=data[i].title;
+                div.appendChild(p);
+
+                aLi[_index].appendChild(div);
+            }
+            b=true;
+        });
+    }
+    window.onscroll=function () {
+        var _index=getShort();
+        var oLi=aLi[_index];
+        var scrollTop=document.documentElement.scrollTop||document.body;
+        
+        if (getTop(oLi)+oLi.offsetHeight<scrollTop+document.documentElement.clientHeight){
+            if(b){
+                b=false;
+                getList();
+            }
+        }
+
+    };
+    function getShort() {
+        var index=0;
+        var ih=aLi[index].offsetHeight;
+        for (var i=1;i<iLen;i++){
+            if(ih>aLi[i].offsetHeight){
+                index=i;
+                ih=aLi[i].offsetHeight;
+            }
+        }
+        return index;
+    }
+    function getTop(obj) {
+        var iTop=0;
+        while (obj){
+            iTop+=obj.offsetTop;
+            obj=obj.offsetParent;
+        }
+        return iTop;
+    }
 </script>
 </body>
 </html>
