@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!--这个应该是豆瓣服务器做了图片防盗链处理了，你在html里面添加-->
+    <meta name="referrer" content="no-referrer" />
+    <title>Title</title>
+    <style>
+        p,h2{
+            margin: 0;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        img{
+            vertical-align: top;
+            border: none;
+        }
+        #q{
+            width: 300px;
+            height: 30px;
+            border: 1px dashed #000;
+            font: 20px/30px '微软雅黑', sans-serif;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+        }
+        #musics{
+            width: 966px;
+            margin: 0 auto;
+            border: 1px solid #000;
+        }
+        #message{
+            color: darkblue;
+            font-size: 14px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        #musics li{
+            width: 270px;
+            border: 1px solid #f00;
+            padding: 20px;
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background: #eee;
+        }
+        #musics a{
+            display: block;
+            text-decoration: none;
+            margin-top: 10px;
+            text-align: center;
+            font: 16px '微软雅黑', sans-serif;
+            color: orangered;
+            white-space: nowrap;
+        }
+    </style>
+    <script>
+        function huaxia(data){
+            var oMessage=document.getElementById('message');
+            oMessage.innerHTML='为您找到相关结果约'+data.total+'个';
+            var oUl=document.getElementById('musics');
+            oUl.innerHTML='';
+            for (var i=0;i<data.musics.length;i++){
+                var li=document.createElement('li');
+                var img=document.createElement('img');
+                var a=document.createElement('a');
+                img.src=data.musics[i].image;
+                img.style.width='270px';
+                img.style.height='270px';
+                li.appendChild(img);
+                a.innerHTML=data.musics[i].title;
+                a.href=data.musics[i].alt;
+                a.target='_blank';
+                li.appendChild(a);
+                oUl.appendChild(li);
+            }
+        }
+        window.onload=function () {
+            var oBtn=document.getElementById('q');
+            oBtn.onkeyup=function () {
+                var script=document.createElement('script');
+                script.src='https://api.douban.com/v2/music/search?q='+this.value+'&callback=huaxia&count=9';
+                document.body.appendChild(script);
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="q">
+<p id="message"></p>
+<ul id="musics">
+    <!--<li>
+        <img src="https://img1.doubanio.com/view/subject/s/public/s29784558.jpg" alt="">
+        <h2>讲真的</h2>
+    </li>-->
+</ul>
+</body>
+</html>
